@@ -1,4 +1,21 @@
 -- Run this in Supabase SQL Editor: https://supabase.com/dashboard/project/qvjnbazctbrlonjefnnf/sql
+-- DAILY COMMUTES
+create table if not exists commutes (
+  id          bigint generated always as identity primary key,
+  created_at  timestamptz default now(),
+  "from"      text not null,
+  "to"        text not null,
+  mode        text not null,
+  days        text[],
+  time        text,
+  name        text,
+  phone       text,
+  note        text
+);
+alter table commutes enable row level security;
+create policy "public read commutes"   on commutes for select using (true);
+create policy "public insert commutes" on commutes for insert with check (true);
+
 
 -- CARPOOL RIDES
 create table if not exists rides (
